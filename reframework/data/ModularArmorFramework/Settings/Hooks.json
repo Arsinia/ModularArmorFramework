@@ -55,10 +55,6 @@
   },
   {
     "type": "app.HunterCharacter",
-    "method": "onHunterContinueFlag"
-  },
-  {
-    "type": "app.HunterCharacter",
     "method": "onSeamlessQuestStart",
     "state": "Ingame"
   },
