@@ -103,10 +103,12 @@ local function HandleTalismanFXVisibility(playerObject)
     end
 end
 
+-- Update is handled in on_frame so it only happens once per frame
+local playerEquipDirty = false
 local function PlayerChangeEquipHandler()
     if not modEnabled then return end
     if GameStateManager.IsOnTitleScreen() or GameStateManager.IsUnknown() then return end
-    PresetManager.Apply(GameStateManager.GetPlayerTransforms())
+    playerEquipDirty = true
 end
 
 local processing = false
@@ -151,6 +153,11 @@ re.on_frame(function()
     HandleTalismanFXVisibility(transforms)
     HandleSlingerVisibility(transforms, isInCombat, isWeaponDrawn, GameStateManager.IsInCutscene())
     HandleWeaponVisibility(transforms, isInCombat, isWeaponDrawn, GameStateManager.IsInCutscene())
+
+    if playerEquipDirty then
+        PresetManager.Apply(GameStateManager.GetPlayerTransforms())
+        playerEquipDirty = false
+    end
 
     processing = false
 end)
