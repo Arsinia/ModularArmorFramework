@@ -1,6 +1,7 @@
 local Preset = require "MAF/Preset"
 local SDK = require "MAF/SDK"
 local PlayerUtil = require "MAF/PlayerUtil"
+local PartUtils = require "MAF/PartUtils"
 local Utils = require "MAF/Utils"
 local DefinitionManager = require "MAF/DefinitionManager"
 local GameStateManager = require "MAF/GameStateManager"
@@ -20,34 +21,47 @@ function MODULE.Apply(transforms)
     end
 
     for _, transform in ipairs(transforms) do
+
+        -- Get all part names that we should consider
+        local partNames = {}
         local it = transform:get_Child()
         while it ~= nil do
-            local partName = it:get_GameObject():get_Name()
-            if string.match(partName, "^ch0[23457]_%d%d%d_%d%d%d%d$") then
-                DefinitionManager.ForEachPartEntry(partName, function(entry_id, entry)
-                    -- For each mesh/part of the entry
-                    for _, meshReference in ipairs(entry:GetMesh()) do
-                        local meshData = Utils.ParseMeshReference(meshReference)
-                        if meshData then
-                            local mesh = SDK.GetMesh(transform, meshData.mesh)
-                            if mesh then
-                                --mesh:setPartsEnable(meshData.group, true)
-
-                                -- Show mesh by default, hide it if it's a hidden mesh
-                                local isHidden = DefinitionManager.IsHidden(meshData.name)
-                                mesh:setPartsEnable(meshData.group, not isHidden)
-
-                                -- If entry is activated, hide the mesh (show the mesh if mesh is inverted)
-                                local entry_enabled = MODULE.ActivePreset:Get(entry_id) or false
-                                if entry_enabled then
-                                    mesh:setPartsEnable(meshData.group, meshData.inverted)
-                                end
-                            end
-                        end
-                    end
-                end)
-            end
+            table.insert(partNames, it:get_GameObject():get_Name())
             it = it:call('get_Next')
+        end
+
+        -- Get all definitions with parts that we are considering, all others are irrelevant
+        local definitionNames = DefinitionManager.GetDefinitionNamesForPartNames(partNames)
+
+        -- Process entries in each relevant definition
+        for _, definitionName in pairs(definitionNames) do
+
+            -- Show all referenced meshes
+            DefinitionManager.ForEachEntry(definitionName, function(index, entry)
+                if entry ~= nil and entry:GetType() == "simple" then
+                    PartUtils.ShowAll(transform, entry:GetMesh())
+                end
+            end)
+
+            -- Hide all marked initially hidden
+            DefinitionManager.ForEachHidden(definitionName, function(hidden)
+                local part = Utils.ParseMeshReferenceLine(hidden)
+                local mesh = SDK.GetMesh(transform, part["mesh"])
+
+                PartUtils.Hide(mesh, part["group"])
+            end)
+
+            -- Set visibility based on selection
+            DefinitionManager.ForEachEntry(definitionName, function(index, entry)
+                if entry ~= nil and entry:GetType() == "simple" then
+
+                    local inverted = entry:GetInverted()
+                    local value = MODULE.GetActivePreset():Get(entry:GetID())
+                    if value then
+                        PartUtils.ApplyAll(transform, entry:GetMesh(), not inverted)
+                    end
+                end
+            end)
         end
     end
 end

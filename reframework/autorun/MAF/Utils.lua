@@ -14,7 +14,25 @@ function MODULE.NewUUID()
     end)
 end
 
+-- input is list of un-parsed lines from the definition json (ex. !ch03_001_0002/10)
+-- returns list of tables with the following key vals
+-- name     : un-parsed name (ex. !ch03_001_0002/10)
+-- mesh     : gameobject name (ex. ch03_001_0002)
+-- group    : mesh group number (ex. 10 if mesh name is ch03_001_0002/10)
+-- inverted : bool for if inverted
 function MODULE.ParseMeshReference(meshReference)
+    if Cache.Get(meshReference) ~= nil then return Cache.Get(meshReference) end
+
+    local result = {}
+    result = {}
+    for _, it in ipairs(meshReference) do
+        table.insert(result, MODULE.ParseMeshReferenceLine(it))
+    end
+    Cache.Set(meshReference, result)
+    return result
+end
+
+function MODULE.ParseMeshReferenceLine(meshReference)
     if Cache.Get(meshReference) ~= nil then return Cache.Get(meshReference) end
 
     local result = {}
