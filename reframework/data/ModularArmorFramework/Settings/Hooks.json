@@ -1,0 +1,125 @@
+[
+  {
+    "type": "app.HunterCharacter",
+    "method": "onEquipBuildEnd",
+    "state": "Ingame"
+  },
+  {
+    "type": "app.mcActiveSkillController",
+    "method": "onEnterTrainingArea",
+    "state": "Ingame"
+  },
+  {
+    "type": "app.HunterCharacter",
+    "method": "enterTent",
+    "state": "Ingame"
+  },
+  {
+    "type": "app.HunterCharacter",
+    "method": "onWeaponBuildEnd",
+    "state": "Ingame"
+  },
+  {
+    "type": "app.HunterCharacter",
+    "method": "onMantleBuildEnd",
+    "state": "Ingame"
+  },
+  {
+    "type": "app.HunterCharacter",
+    "method": "evSceneLoadFadeIn"
+  },
+  {
+    "type": "app.HunterCharacter",
+    "method": "onWeaponOnStateChanged",
+    "state": "Ingame"
+  },
+  {
+    "type": "app.HunterCharacter",
+    "method": "onCutSceneMotionBindStart"
+  },
+  {
+    "type": "app.HunterCharacter",
+    "method": "onCutSceneMotionBindEnd"
+  },
+  {
+    "type": "app.HunterCharacter",
+    "method": "onRequestedCutSceneStartMotionSet"
+  },
+  {
+    "type": "app.HunterCharacter",
+    "method": "onRequestedCutSceneEndMotionSet"
+  },
+  {
+    "type": "app.HunterCharacter",
+    "method": "onHunterStatusFlag"
+  },
+  {
+    "type": "app.HunterCharacter",
+    "method": "onHunterContinueFlag"
+  },
+  {
+    "type": "app.HunterCharacter",
+    "method": "onSeamlessQuestStart",
+    "state": "Ingame"
+  },
+  {
+    "type": "app.HunterCharacter",
+    "method": "onSeamlessQuestEnd",
+    "state": "Ingame"
+  },
+  {
+    "type": "app.mcHunterArmorControl",
+    "method": "onTriggerOtherMantleDraw",
+    "state": "Ingame"
+  },
+  {
+    "type": "app.HunterFinal",
+    "method": "onPartsChangeBegin"
+  },
+  {
+    "type": "app.HunterFinal",
+    "method": "onWeaponChanged",
+    "state": "Ingame"
+  },
+  {
+    "type": "app.HunterZoneController",
+    "method": "evPauseResume_ZoneHit"
+  },
+  {
+    "type": "app.HunterZoneController",
+    "method": "evEventPauseChange_ZoneHit"
+  },
+  {
+    "type": "app.ItemUtil",
+    "method": "pickupLog",
+    "state": "Ingame"
+  },
+  {
+    "type": "app.mcHunterArmorControlBase",
+    "method": "onTriggerHelmDraw"
+  },
+  {
+    "type": "app.mcHunterArmorControlBase",
+    "method": "onTriggerGloveDraw"
+  },
+  {
+    "type": "app.mcHunterArmorControlBase",
+    "method": "onTriggerArmSlingerDraw"
+  },
+  {
+    "type": "app.mcHunterArmorControl",
+    "method": "checkUpdateDrawBodyWaist"
+  },
+  {
+    "type": "app.cArmorChanger",
+    "method": "changeArmorAll"
+  },
+  {
+    "type": "app.cArmorChanger",
+    "method": "changeArmorOnlyParts"
+  },
+  {
+    "type": "app.GuildCardSceneController",
+    "method": "onOpen"
+  }
+]
